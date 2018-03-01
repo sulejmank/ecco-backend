@@ -25,4 +25,17 @@ fs
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+db.Customer.hasOne(db.AvioKarta);
+db.AvioKarta.belongsTo(db.Customer);
+
+db.Customer.hasOne(db.Plan);
+db.Plan.belongsTo(db.Customer);
+
+db.Plan.hasMany(db.AvioKarta);
+db.AvioKarta.belongsTo(db.Plan);
+
+db.Plan.hasOne(db.Rata);
+db.Rata.belongsTo(db.Plan);
+
+
 module.exports = db;

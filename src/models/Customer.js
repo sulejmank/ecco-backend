@@ -1,10 +1,11 @@
 module.exports = (sequelize, DataTypes) =>
-    sequelize.define('Customer', {
+   sequelize.define('Customer', 
+    {
         ime: {
-            type: DataTypes.STRING  
+            type:DataTypes.STRING  
         },
         prezime:{
-            type: DataTypes.STRING
+            type:DataTypes.STRING
         },
         datumRodjenja: {
             type:DataTypes.DATEONLY
@@ -15,5 +16,21 @@ module.exports = (sequelize, DataTypes) =>
         },
         adresa: {
             type:DataTypes.STRING
+        },
+        putnik: {
+            type:DataTypes.BOOLEAN,
+            defaultValue: false
+        },
+        brojPasosa: {
+            type:DataTypes.STRING,
+            unique:true,
+            allowNull: true
+        },
+        struka: {
+            type:DataTypes.STRING,
+            allowNull: true
         }
     });
+
+  
+

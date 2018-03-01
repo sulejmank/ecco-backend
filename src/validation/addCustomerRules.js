@@ -8,7 +8,10 @@ module.exports = {
             prezime:Joi.string().regex(/^[a-zA-Z]{3,30}$/),
             datumRodjenja:Joi.string(),
             brojTelefona:Joi.string().regex(/^[0-9+-]{6,30}$/),
-            adresa:Joi.string()
+            adresa:Joi.string(),
+            putnik: Joi.boolean(),
+            brojPasosa: Joi.string().regex(/^[0-9+-]{6,30}$/),
+            struka: Joi.string().alphanum()
         }
 
         // baci pogled na ovu validaciju, ima li jos kakvih zahteva sto se validacije tice
@@ -42,6 +45,12 @@ module.exports = {
                         error:'Adresa nije validna'
                     })
                     break;
+                case 'brojPasosa':
+                    res.status(400).send({
+                        error:'Broj pasosa nije validan'
+                    })
+                    break;
+
                 default:
                     res.status(400).send({
                         error: error.toString() + "Nevalidni podaci"
