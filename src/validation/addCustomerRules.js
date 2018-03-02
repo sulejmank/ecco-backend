@@ -6,11 +6,11 @@ module.exports = {
         const schema = {
             ime: Joi.string().regex(/^[a-zA-Z]{3,30}$/),
             prezime:Joi.string().regex(/^[a-zA-Z]{3,30}$/),
-            datumRodjenja:Joi.string(),
+            datumRodjenja:Joi.string(), // kasnije sredit
             brojTelefona:Joi.string().regex(/^[0-9+-]{6,30}$/),
             adresa:Joi.string(),
             putnik: Joi.boolean(),
-            brojPasosa: Joi.string().regex(/^[0-9+-]{6,30}$/),
+            brojPasosa: Joi.string().regex(/^[0-9+-A-Za-z]{6,30}$/),
             struka: Joi.string().alphanum()
         }
 
@@ -27,7 +27,7 @@ module.exports = {
                     break;
                 case 'prezime':
                     res.status(400).send({
-                        error:'Ime nije validno'
+                        error:'Prezime nije validno'
                     })
                     break;
                 case 'datumRodjenja':
