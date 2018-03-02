@@ -13,7 +13,9 @@ module.exports = {
                         $or: [
                             'ime', 'prezime' // za sad je u jednoj ruti, po potrebi podeliti na dve
                         ].map(key => ({
-                             [key]: search
+                             [key]: {
+                                 $like: `%${search}%`
+                             }
                         }))
                     }
                 })
