@@ -6,6 +6,7 @@ module.exports = {
         const schema = {
             ime: Joi.string().regex(/^[a-zA-Z]{3,30}$/),
             prezime:Joi.string().regex(/^[a-zA-Z]{3,30}$/),
+            email:Joi.string().email(),
             datumRodjenja:Joi.string(), // kasnije sredit
             brojTelefona:Joi.string().regex(/^[0-9+-]{6,30}$/),
             adresa:Joi.string(),
@@ -28,6 +29,11 @@ module.exports = {
                 case 'prezime':
                     res.status(400).send({
                         error:'Prezime nije validno'
+                    })
+                    break;
+                case 'email':
+                    res.status(400).send({
+                        error:'Email nije validno'
                     })
                     break;
                 case 'datumRodjenja':

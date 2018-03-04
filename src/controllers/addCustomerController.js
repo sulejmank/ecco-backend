@@ -7,7 +7,7 @@ module.exports = {
             res.send(customer.toJSON()); // id samo vracanje za produkciju
         } catch(err) {
             res.status(400).send({
-                error:'Broj pasosa ili broj telefona vec postoji!'
+                error:err.toString()
             });
         }
     }
