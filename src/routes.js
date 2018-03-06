@@ -7,6 +7,9 @@ module.exports = (app) => {
         addCustomerRules.addCustomer,
         addCustomerController.addCustomer);  
 
-    app.get('/api/relevantCustomer',
-        customerSearchController.searchCustomer);  // get za autocomplete
+    // app.get('/api/relevantCustomer',
+    //     customerSearchController.searchCustomer);  // get za autocomplete
+
+    app.get('/api/search',
+        customerSearchController.searchPlace); 
 }
