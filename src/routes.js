@@ -1,9 +1,12 @@
 const CustomerController = require('./controllers/CustomerController');
 const AvioKartaController = require('./controllers/AvioKartaController');
 const SearchController = require('./controllers/SearchController');
+const UploadController = require('./controllers/UploadController');
 const PlanController = require('./controllers/PlanController');
+const PurchaseController = require('./controllers/PurchaseController');
 const addCustomerRules = require('./validation/addCustomerRules');
 const addAvioKartaRules = require('./validation/addAvioKartaRules');
+
 
 module.exports = (app) => {
 
@@ -17,6 +20,12 @@ module.exports = (app) => {
 
     app.post('/api/addPlan',
         PlanController.addPlan);
+
+    app.post('/api/upload',
+        UploadController.uploadImg);
+
+    app.post('/api/purchase',
+        PurchaseController.makePurchase);
         
     app.get('/api/relevantCustomer',
         SearchController.searchCustomer); 

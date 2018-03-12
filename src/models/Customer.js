@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) =>
         },
         urlSlike: {
             type:DataTypes.STRING,
-            defaultValue:''// avatar
+            defaultValue:'https://i.imgur.com/BjP9MgO.png'
         },
         adresa: {
             type:DataTypes.STRING,

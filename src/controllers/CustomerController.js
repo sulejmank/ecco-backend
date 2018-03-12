@@ -1,7 +1,6 @@
 const {Customer} = require('../models');
 
 module.exports = {
-
     async addCustomer(req,res) {  
         try {
             const customer = await Customer.create(req.body);
@@ -13,7 +12,6 @@ module.exports = {
         }
     },
 
-
     async list(req, res) {
         try {
             const customers = await Customer.findAll();
@@ -22,8 +20,6 @@ module.exports = {
             res.status(500).send({
                 error: err.toString()
             });
-
-            console.error(err);
         }
     }
 }

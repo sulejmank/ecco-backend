@@ -10,7 +10,6 @@ module.exports = {
                 error: err.toString()
             });
 
-            console.error(err);
         }
     }
 }

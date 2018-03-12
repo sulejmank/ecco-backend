@@ -25,7 +25,7 @@ fs
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.Customer.hasOne(db.AvioKarta);
+db.Customer.hasMany(db.AvioKarta);
 db.AvioKarta.belongsTo(db.Customer);
 
 db.Customer.hasOne(db.Plan);
