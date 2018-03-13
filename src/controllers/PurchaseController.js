@@ -9,35 +9,44 @@ module.exports = {
         const produkti = req.body.produkti;
         const rate = req.body.rate;
         
-        try {
-            const plan = await Plan.create({
-                avans: req.body.avans,
-                totalnaCena: req.body.totalnaCena,
+        const plan = await Plan.create({
+            avans: req.body.avans,
+            totalnaCena: req.body.totalnaCena,
+            status: false,
+            CustomerId: req.body.idMusterije
+        }); 
+
+        Promise.map(produkti, produkt => AvioKarta.create({
+            putovanjeOd: produkt.putovanjeOd,
+            putovanjeDo: produkt.putovanjeDo,
+            potvrdjeno: produkt.potvrdjeno,
+            datumPolaska: produkt.datumPolaska,
+            datumDolaska: produkt.datumDolaska,
+            cena: produkt.cena,
+            avioKompanija: produkt.avioKompanija,
+            brojRezervacije: produkt.brojRezervacije,
+            jedanPravac: produkt.jedanPravac,
+            CustomerId: produkt.idPutnika,
+            PlanId: plan.id
+        }))
+        .then(() => {
+            Promise.map(rate, rata => Rata.create({ 
+                datum: rata.rokUplate,
+                iznos: rata.iznos,
                 status: false,
-                CustomerId: req.body.idMusterije
-            }); 
-            
-            Promise.map(produkti, produkt => AvioKarta.create(produkt))
-            .then(() => {
-
-                Promise.map(rate, rata => Rata.create({ 
-                    datum: rata.rokUplate,
-                    iznos: rata.iznos,
-                    status: false,
-                    PlanId: plan.id
-                }))
-            })
-            .catch(err => console.log(err));
-
+                PlanId: plan.id
+            }))
+        })
+        .then(() => {
             res.status(200).send({
                 msg: "uspesno"
-            });
-
-        } catch(err) {
+            });    
+        })
+        .catch((err) => {
             console.error(err);
             res.status(400).send({
                 error: err
             });
-        }
+        });
     }
 }

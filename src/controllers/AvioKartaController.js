@@ -11,5 +11,24 @@ module.exports = {
             });
 
         }
+    },
+
+    async potvrdiKartu(req, res) {
+        const karta = await AvioKarta.update(
+            {potvrdjeno: true },
+        {
+            where: {id: req.body.id}
+        })
+        .then(() => {
+            res.status(200).send({
+                msg: 'Karta cekirana'
+                });
+            })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).send({
+                error: err
+                });
+        });
     }
 }
