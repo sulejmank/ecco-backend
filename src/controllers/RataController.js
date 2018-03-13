@@ -16,7 +16,13 @@ module.exports = {
                         $between: [datum, mesec]
                     }
                 },{
-                    status: false
+                    [Op.and]:[
+                        {status: false},{
+                            datum:{
+                                lt: datum
+                            }
+                        }
+                    ]
                 }]
             }
         })
