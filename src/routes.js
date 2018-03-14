@@ -29,7 +29,7 @@ module.exports = (app) => {
         PurchaseController.makePurchase);
     
     app.post('/api/check', 
-        AvioKartaController.potvrdiKartu);
+        AvioKartaController.checkKarte);
 
     app.post('/api/uplata', 
         RataController.platiRatu);

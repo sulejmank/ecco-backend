@@ -24,7 +24,8 @@ module.exports = {
                         }
                     ]
                 }]
-            }
+            },
+            order:['datum']
         })
         .then((rate) => {
             res.status(200).send(rate);

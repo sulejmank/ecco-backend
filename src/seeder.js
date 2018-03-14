@@ -118,7 +118,7 @@ const AvioKartaData = [
         datumDolaska: "2018-2-3",
         brojRezervacije: "1231322",
         avioKompanija: "Nikola Tesla",
-        potvrdjeno: true,
+        potvrdjeno: false,
         cena: 200.3,
         datumRezervacije: "2018-3-1",
         CustomerId:3
@@ -127,11 +127,11 @@ const AvioKartaData = [
         putovanjeOd:"Sarajevo",
         putovanjeDo:"Amsetrdam",
         jedanPravac: true,
-        datumPolaska: "2018-1-1",
+        datumPolaska: "2018-3-15",
         datumDolaska: "2018-2-3",
         brojRezervacije: "1231322",
         avioKompanija: "Nikola Tesla",
-        potvrdjeno: true,
+        potvrdjeno: false,
         cena: 200.3,
         datumRezervacije: "2018-3-1",
         CustomerId:4
@@ -140,11 +140,11 @@ const AvioKartaData = [
         putovanjeOd:"Sarajevo",
         putovanjeDo:"Sjenica",
         jedanPravac: true,
-        datumPolaska: "2018-1-1",
+        datumPolaska: "2018-3-16",
         datumDolaska: "2018-2-3",
         brojRezervacije: "1231322",
         avioKompanija: "Nikola Tesla",
-        potvrdjeno: true,
+        potvrdjeno: false,
         cena: 200.3,
         datumRezervacije: "2018-3-1",
         CustomerId:2
@@ -153,11 +153,11 @@ const AvioKartaData = [
         putovanjeOd:"Sarajevo",
         putovanjeDo:"Berlin",
         jedanPravac: true,
-        datumPolaska: "2018-1-1",
+        datumPolaska: "2018-3-15",
         datumDolaska: "2018-2-3",
         brojRezervacije: "1231322",
         avioKompanija: "Nikola Tesla",
-        potvrdjeno: true,
+        potvrdjeno: false,
         cena: 200.3,
         datumRezervacije: "2018-3-1",
         CustomerId:1
@@ -242,7 +242,7 @@ const RataData = [
 ];
 
 
-sequelize.sync({force:true})
+sequelize.sync()
     .then(() => {
         console.log("db is up, clean and synced");
     })

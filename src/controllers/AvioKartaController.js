@@ -1,4 +1,7 @@
 const {AvioKarta} = require('../models');
+const {Sequelize} = require('../models');
+
+const Op = Sequelize.Op;
 
 module.exports = {
     async addAvio(req, res) {
@@ -10,6 +13,30 @@ module.exports = {
                 error: err.toString()
             });
 
+        }
+    },
+
+    async checkKarte(req, res) {     
+        let datum = new Date();
+        let datum2 = new Date();
+        datum.setHours(datum.getHours() + 48);
+        try {
+        const karte = await AvioKarta.findAll({
+            where: {
+            [Op.and]: [{
+                datumPolaska: {
+                    $between: [datum2,datum]
+                }
+            },{
+                potvrdjeno: false
+            }]
+        }
+        });
+        
+            res.status(200).send(karte);
+        }
+        catch( err ){
+            res.send(err);
         }
     },
 
@@ -31,4 +58,4 @@ module.exports = {
             });
         });
     }
-}
+};

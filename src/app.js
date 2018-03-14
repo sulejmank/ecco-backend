@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const {sequelize} = require('./models');
 const config = require('./config/config');
 const helmet = require('helmet');
-
 const app = express();
 
 app.use(helmet());
