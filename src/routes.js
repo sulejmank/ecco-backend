@@ -33,7 +33,10 @@ module.exports = (app) => {
 
     app.post('/api/uplata', 
         RataController.platiRatu);
-        
+    
+    app.get('/api/purchases',
+        PurchaseController.purchases);
+
     app.get('/api/relevantCustomer',
         SearchController.searchCustomer); 
 

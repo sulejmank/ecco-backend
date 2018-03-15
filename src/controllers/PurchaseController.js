@@ -48,5 +48,68 @@ module.exports = {
                 error: err
             });
         });
+    },
+
+    async purchases(req, res) {
+        let x = parseInt(req.query.input);
+        var podaci = {};
+        
+        if(x) {
+            try {
+                podaci.musterije = await Customer.findAll({
+                    limit: x
+                });
+
+                for(let i = 0; i< podaci.musterije.length; i ++){
+                    podaci.musterije[i].dataValues.produkti = await Plan.findAll({
+                        where: {
+                            CustomerId: podaci.musterije[i].id
+                        }
+                    });
+
+                    for(let j = 0; j < podaci.musterije[i].dataValues.produkti.length; j++){
+                        podaci.musterije[i].dataValues.produkti[j].dataValues.rate = await Rata.findAll({
+                            where: {
+                                PlanId: podaci.musterije[i].dataValues.produkti[j].id
+                            }
+                        })
+                    }   
+                }
+            res.status(200).send(podaci); 
+        } catch(err) {
+            console.log(err);
+                res.status(400).send({
+                    error: err
+                })
+            }
+        } else {
+            try {
+                podaci.musterije = await Customer.findAll({
+                    limit: 20
+                 });
+
+                for(let i = 0; i< podaci.musterije.length; i ++){
+                    podaci.musterije[i].dataValues.produkti = await Plan.findAll({
+                        where: {
+                            CustomerId: podaci.musterije[i].id
+                        }
+                    });
+
+                    for(let j = 0; j < podaci.musterije[i].dataValues.produkti.length; j++){
+                        podaci.musterije[i].dataValues.produkti[j].dataValues.rate = await Rata.findAll({
+                            where: {
+                                PlanId: podaci.musterije[i].dataValues.produkti[j].id
+                            }
+                        })
+                    }   
+                }
+                res.status(200).send(podaci); 
+            } catch(err) {
+                console.log(err);
+                    res.status(400).send({
+                        error: err
+                    })
+                }
+            }
+        }
     }
-}

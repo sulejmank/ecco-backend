@@ -1,5 +1,6 @@
 {
-  "name": "ecco",
+  "name": "ecco-backend",
+  "cd descccname": "ecco",
   "version": "1.0.0",
   "description": "agency web app",
   "main": "app.js",
