@@ -2,7 +2,6 @@ const request = require('request');
 const fs = require('fs');
 const http = require("https");
 const formData = require('form-data');
-const Promise = require('bluebird');
 
 module.exports = {
 
@@ -23,17 +22,17 @@ module.exports = {
                         formData:forma },
                       (err, response, body) => {
                         if(err) {
-                          console.log(err);
+                            console.log(err);
                         } else {
-                          var obj = JSON.parse(body);
-                          link = obj.data.link;
+                            var obj = JSON.parse(body);
+                            link = obj.data.link;
 
-                          res.status(200).send({
-                            urlSlike: obj.data.link
-                          });
+                            res.status(200).send({
+                              urlSlike: obj.data.link
+                            });
                         }
                       });     
-        } catch(err){
+        } catch(err) {
             res.status(400).send({
               error:err
             });

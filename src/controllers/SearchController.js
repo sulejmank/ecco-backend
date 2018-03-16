@@ -24,9 +24,8 @@ module.exports = {
                     limit:20
                 })
             }
-
             res.send(customers);
-
+            
         } catch(err){
             res.status(500).send({
                 error: err.toString()                

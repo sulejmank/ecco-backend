@@ -66,7 +66,6 @@ module.exports = {
                             CustomerId: podaci.musterije[i].id
                         }
                     });
-
                     for(let j = 0; j < podaci.musterije[i].dataValues.produkti.length; j++){
                         podaci.musterije[i].dataValues.produkti[j].dataValues.rate = await Rata.findAll({
                             where: {
@@ -75,6 +74,7 @@ module.exports = {
                         })
                     }   
                 }
+
             res.status(200).send(podaci); 
         } catch(err) {
             console.log(err);
@@ -82,6 +82,7 @@ module.exports = {
                     error: err
                 })
             }
+
         } else {
             try {
                 podaci.musterije = await Customer.findAll({
@@ -94,7 +95,6 @@ module.exports = {
                             CustomerId: podaci.musterije[i].id
                         }
                     });
-
                     for(let j = 0; j < podaci.musterije[i].dataValues.produkti.length; j++){
                         podaci.musterije[i].dataValues.produkti[j].dataValues.rate = await Rata.findAll({
                             where: {
@@ -103,6 +103,7 @@ module.exports = {
                         })
                     }   
                 }
+                
                 res.status(200).send(podaci); 
             } catch(err) {
                 console.log(err);
