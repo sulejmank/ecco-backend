@@ -1,34 +1,42 @@
 const request = require('request');
 const fs = require('fs');
+const http = require("https");
+const formData = require('form-data');
+const Promise = require('bluebird');
 
 module.exports = {
 
     async uploadImg(req,res) {
 
-       // let file = req.files.image; // get img
-        let link = null;
-        
-        console.log(req.files);
+        let file = req.file; 
+        var link = null;
 
-        var options = { 
-          method: 'POST',
-          url: 'https://api.imgur.com/3/image',
-          headers: 
-          { 'Cache-Control': 'no-cache',
-            Authorization: 'Client-ID c54289b2ce81bf5',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'content-type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' },
-          formData: 
-          { image: 
-              { value: fs.createReadStream("C:\\Users\\Imana\\Pictures\\proba.png"),//binary or base64
-                options: 
-                { filename: 'C:\\Users\\Imana\\Pictures\\proba.png',
-                  contentType: null } } } };
-      
-      request(options, function (error, response, body) {
-        if (error) throw new Error(error);
-      
-        console.log(body);
-      }); 
-    }
+      try {
+        let slika = file.buffer.toString('base64');
+        let forma = {
+          'image': slika
+        }
+
+        request.post({url:'https://api.imgur.com/3/image', 
+                        headers:{
+                          'Authorization': 'Client-ID c54289b2ce81bf5'},
+                        formData:forma },
+                      (err, response, body) => {
+                        if(err) {
+                          console.log(err);
+                        } else {
+                          var obj = JSON.parse(body);
+                          link = obj.data.link;
+
+                          res.status(200).send({
+                            urlSlike: obj.data.link
+                          });
+                        }
+                      });     
+        } catch(err){
+            res.status(400).send({
+              error:err
+            });
+        }
+  }
 };

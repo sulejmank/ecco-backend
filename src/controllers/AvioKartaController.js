@@ -12,7 +12,6 @@ module.exports = {
             res.status(500).send({
                 error: err.toString()
             });
-
         }
     },
 
@@ -32,7 +31,6 @@ module.exports = {
             }]
         }
         });
-        
             res.status(200).send(karte);
         }
         catch( err ){

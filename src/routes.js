@@ -8,6 +8,11 @@ const RataController = require('./controllers/RataController');
 const addCustomerRules = require('./validation/addCustomerRules');
 const addAvioKartaRules = require('./validation/addAvioKartaRules');
 
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({storage: storage});
+
+const type = upload.single('image');
 
 module.exports = (app) => {
 
@@ -22,7 +27,8 @@ module.exports = (app) => {
     app.post('/api/addPlan',
         PlanController.addPlan);
 
-    app.post('/api/upload',
+    app.post('/api/upload', 
+        type,
         UploadController.uploadImg);
 
     app.post('/api/purchase',
