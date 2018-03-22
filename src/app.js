@@ -8,25 +8,23 @@ const app = express();
 app.use(helmet());
 
 app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    res.setHeader('Content-Security-Policy', "script-src 'self'");
 
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('X-Frame-Options', 'SAMEORIGIN'); 
-  res.setHeader('X-Content-Type-Options','nosniff');
-  res.setHeader('X-XSS-Protection', '1; mode=block' );
-  res.setHeader('Content-Security-Policy', "script-src 'self'");
-  
-  next();
+    next();
 });
-
 
 app.use(bodyParser.json());
 
 require('./routes')(app);
 
-sequelize.sync()
+sequelize.sync({force: true})
     .then(() => {
         app.listen(config.port);
         console.log(`Server running on port ${config.port}`);

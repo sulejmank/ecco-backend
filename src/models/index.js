@@ -14,22 +14,27 @@ const sequelize = new Sequelize(
 
 fs
     .readdirSync(__dirname)
-    .filter((file) => 
-            file !== 'index.js'
-     )
+    .filter((file) =>
+        file !== 'index.js'
+    )
     .forEach((file) => {
-        const model = sequelize.import(path.join(__dirname, file))
-        db[model.name] = model
-    })
+        const model = sequelize.import(path.join(__dirname, file));
+        db[model.name] = model;
+    });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.Customer.hasMany(db.AvioKarta);
-db.AvioKarta.belongsTo(db.Customer);
+db.Klijent.hasMany(db.AvioKarta);
+db.AvioKarta.belongsTo(db.Klijent);
 
-db.Customer.hasOne(db.Plan);
-db.Plan.belongsTo(db.Customer);
+db.Klijent.hasOne(db.Plan);
+db.Plan.belongsTo(db.Klijent);
+
+db.Klijent.hasMany(db.Angazman);
+db.Angazman.belongsTo(db.Klijent);
+
+db.Angazman.belongsTo(db.Plan);
 
 db.Plan.hasMany(db.AvioKarta);
 db.AvioKarta.belongsTo(db.Plan);
@@ -37,5 +42,7 @@ db.AvioKarta.belongsTo(db.Plan);
 db.Plan.hasOne(db.Rata);
 db.Rata.belongsTo(db.Plan);
 
+db.Plan.hasMany(db.Transfer);
+db.Transfer.belongsTo(db.Plan);
 
 module.exports = db;

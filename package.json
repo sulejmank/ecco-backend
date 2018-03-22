@@ -5,7 +5,7 @@
   "description": "agency web app",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon src/app.js lint",
+    "start": "nodemon src/app.js",
     "lint": "eslint **/*.js"
   },
   "repository": {
@@ -28,5 +28,12 @@
     "querystring": "^0.2.0",
     "request": "^2.84.0",
     "sequelize": "^4.34.1"
+  },
+  "devDependencies": {
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.0.1"
   }
 }
