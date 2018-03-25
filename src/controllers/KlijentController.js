@@ -4,7 +4,7 @@ module.exports = {
     async addKlijent (req, res) {
         try {
             const klijent = await Klijent.create(req.body);
-            res.send(klijent.id.toString());
+            res.send(klijent);
         } catch (err) {
             res.status(400).send({
                 error: err.toString()

@@ -5,7 +5,7 @@ module.exports = {
     async uploadImg (req, res) {
         let file = req.file;
         let link = null;
-        let id = req.body.id;
+        //let id = req.body.id;
 
         try {
             let slika = file.buffer.toString('base64');
@@ -30,11 +30,11 @@ module.exports = {
                         urlSlike: link
                     });
 
-                    await Klijent.update(
-                        { urlSlike: link },
-                        {
-                            where: {id: id}
-                        });
+                   // await Klijent.update(
+                     //   { urlSlike: link },
+                       // {
+                         //   where: {id: id}
+                    //    });
                 }
             });
         } catch (err) {

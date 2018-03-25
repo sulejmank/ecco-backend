@@ -8,19 +8,11 @@ module.exports = (sequelize, DataTypes) =>
             hotel: {
                 type: DataTypes.STRING
             },
-            struktura_sobe: {
-                type: DataTypes.ENUM,
-                values: [
-                    '1-krevetna',
-                    '2-krevetna'
-                ]
+            strukturaSobe: {
+                type: DataTypes.STRING
             },
-            usluga: {
-                type: DataTypes.ENUM,
-                values: [
-                    'polu-pansion',
-                    'pun-pansion', 'bez'
-                ]
+            usluge: {
+                type: DataTypes.STRING
             },
             datumPocetka: {
                 type: DataTypes.DATE
@@ -28,10 +20,14 @@ module.exports = (sequelize, DataTypes) =>
             datumZavrsetka: {
                 type: DataTypes.DATE
             },
+            usluznaKompanija: {
+                type: DataTypes.STRING
+            },
             cena: {
                 type: DataTypes.DECIMAL(10, 2)
             },
             brojPutnika: {
-                type: DataTypes.INTEGER
+                type: DataTypes.INTEGER,
+                defaultValue: 0
             }
         });

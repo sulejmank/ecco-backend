@@ -5,6 +5,7 @@ const UploadController = require('./controllers/UploadController');
 const PlanController = require('./controllers/PlanController');
 const PurchaseController = require('./controllers/PurchaseController');
 const RataController = require('./controllers/RataController');
+const AngazmanController = require('./controllers/AngazmanController');
 const addKlijentRules = require('./validation/addKlijentRules');
 const addAvioKartaRules = require('./validation/addAvioKartaRules');
 
@@ -39,6 +40,12 @@ module.exports = (app) => {
     app.post('/api/uplata',
         RataController.platiRatu);
 
+    app.post('/api/addAng',
+        AngazmanController.addAngazman);
+
+    app.post('/api/addtoang',
+        AngazmanController.addPassToAng);
+
     app.get('/api/purchases',
         PurchaseController.purchases);
 
@@ -47,6 +54,9 @@ module.exports = (app) => {
 
     app.get('/api/rate',
         RataController.list);
+    
+    app.get('/api/angazmani',
+        AngazmanController.list);
 
     app.get('/api/list',
         KlijentController.list);
