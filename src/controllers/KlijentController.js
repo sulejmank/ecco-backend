@@ -12,6 +12,20 @@ module.exports = {
         }
     },
 
+    async putnik (req, res) {
+        try {
+            const putnik = await Klijent.findAll({
+                where: {
+                    id: req.body.id
+                }
+            });
+            res.status(200).send(putnik);
+        } catch (err) {
+            console.log(err);
+            res.status(500).send(err);
+        }
+    },
+
     async list (req, res) {
         try {
             const Klijents = await Klijent.findAll();

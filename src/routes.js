@@ -21,7 +21,6 @@ module.exports = (app) => {
         KlijentController.addKlijent);
 
     app.post('/api/addAvio',
-        addAvioKartaRules.addAvioKarta,
         AvioKartaController.addAvio);
 
     app.post('/api/addPlan',
@@ -37,8 +36,14 @@ module.exports = (app) => {
     app.post('/api/check',
         AvioKartaController.checkKarte);
 
+    app.post('/api/checkTicket',
+        AvioKartaController.potvrdiKartu);
+
     app.post('/api/uplata',
         RataController.platiRatu);
+
+    app.post('/api/putnik',
+        KlijentController.putnik);
 
     app.post('/api/addAng',
         AngazmanController.addAngazman);
@@ -48,6 +53,9 @@ module.exports = (app) => {
 
     app.get('/api/purchases',
         PurchaseController.purchases);
+
+    app.get('/api/karte',
+        AvioKartaController.list);
 
     app.get('/api/relevantKlijent',
         SearchController.searchKlijent);
