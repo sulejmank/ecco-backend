@@ -55,7 +55,7 @@ module.exports = {
         // todo
     },
 
-    async purchases (req, res) { // refactor!
+    async purchases (req, res) { // refactor
         let x = parseInt(req.query.input);
         var podaci = {};
 
