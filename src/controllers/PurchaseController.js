@@ -51,7 +51,11 @@ module.exports = {
             });
     },
 
-    async purchases (req, res) {
+    async newPurchases (req, res) {
+        // todo
+    },
+
+    async purchases (req, res) { // refactor!
         let x = parseInt(req.query.input);
         var podaci = {};
 
