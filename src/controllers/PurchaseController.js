@@ -2,6 +2,7 @@ const {Klijent} = require('../models');
 const {Plan} = require('../models');
 const {AvioKarta} = require('../models');
 const {Rata} = require('../models');
+const {Sequelize} = require('../models');
 const Promise = require('bluebird');
 
 module.exports = {
@@ -85,20 +86,29 @@ module.exports = {
         } else {
             try {
                 podaci.musterije = await Klijent.findAll({
-                    limit: 20
+                    limit: 20,
+                    order: [
+                        [Sequelize.col('createdAt'), 'DESC']
+                    ]
                 });
 
                 for (let i = 0; i < podaci.musterije.length; i++) {
                     podaci.musterije[i].dataValues.produkti = await Plan.findAll({
                         where: {
                             KlijentId: podaci.musterije[i].id
-                        }
+                        },
+                        order: [
+                            [Sequelize.col('createdAt'), 'DESC']
+                        ]
                     });
                     for (let j = 0; j < podaci.musterije[i].dataValues.produkti.length; j++) {
                         podaci.musterije[i].dataValues.produkti[j].dataValues.rate = await Rata.findAll({
                             where: {
                                 PlanId: podaci.musterije[i].dataValues.produkti[j].id
-                            }
+                            },
+                            order: [
+                                [Sequelize.col('createdAt'), 'DESC']
+                            ]
                         });
                     }
                 }
