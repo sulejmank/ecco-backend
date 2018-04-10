@@ -8,6 +8,7 @@ const RataController = require('./controllers/RataController');
 const AngazmanController = require('./controllers/AngazmanController');
 const addKlijentRules = require('./validation/addKlijentRules');
 const addAvioKartaRules = require('./validation/addAvioKartaRules');
+const TransferController = require('./controllers/TransferController');
 
 const multer = require('multer');
 const storage = multer.memoryStorage();
@@ -47,6 +48,9 @@ module.exports = (app) => {
 
     app.post('/api/addAng',
         AngazmanController.addAngazman);
+
+    app.post('/api/addtransfer',
+        TransferController.addTransfer);
 
     app.post('/api/addtoang',
         AngazmanController.addPassToAng);
