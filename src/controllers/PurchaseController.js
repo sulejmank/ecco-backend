@@ -79,7 +79,6 @@ module.exports = {
                         });
                     }
                 }
-
                 res.status(200).send(podaci);
             } catch (err) {
                 console.log(err);
@@ -116,7 +115,6 @@ module.exports = {
                         });
                     }
                 }
-
                 res.status(200).send(podaci);
             } catch (err) {
                 console.log(err);

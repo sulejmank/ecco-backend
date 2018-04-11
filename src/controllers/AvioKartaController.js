@@ -1,6 +1,5 @@
 const {AvioKarta} = require('../models');
 const {Sequelize} = require('../models');
-const {Klijent} = require('../models');
 const {Plan} = require('../models');
 
 const Op = Sequelize.Op;
@@ -36,22 +35,14 @@ module.exports = {
     },
 
     async list (req, res) {
-        // let podaci = {};
+        let podaci = {};
         try {
-            let karte = await AvioKarta.findAll({
+            podaci.karte = await AvioKarta.findAll({
                 order: [
                     [Sequelize.col('createdAt'), 'DESC']
                 ]
             });
-        /*    //console.log(podaci);
-            for (let i = 0; i < podaci.karte.length; i++) {
-                podaci.karte[i].AvioKarta.dataValues.Putnik = Klijent.findAll({
-                    where: {
-                        id: podaci.karta[i].AvioKarta.KlijentId
-                    }
-                });
-            } */    
-            res.status(200).send(karte);
+            res.status(200).send(podaci);
         } catch (err) {
             res.send(err);
         }
@@ -82,7 +73,6 @@ module.exports = {
     },
 
     async potvrdiKartu (req, res) {
-        console.log(req);
         await AvioKarta.update(
             {
                 potvrdjeno: true

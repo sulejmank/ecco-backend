@@ -30,7 +30,6 @@ module.exports = {
 
     async addPassToAng (req, res) {
         try {
-            console.log(req.body);
             await AngazmanPutnici.create({
                 idAngazmana: req.body.idAngazmana,
                 idPutnika: req.body.idPutnika
@@ -41,12 +40,13 @@ module.exports = {
                 }
             });
             await Angazman.update(
-                { brojPutnika: brPutnika.length },
+                {
+                    brojPutnika: brPutnika.length
+                },
                 {
                     where: {id: req.body.idAngazmana}
                 }
             );
-            console.log(brPutnika.length);
             res.status(200).send();
         } catch (err) {
             res.status(500).send(err);
