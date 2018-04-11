@@ -1,17 +1,11 @@
 const {AvioKarta} = require('../models');
 const {Sequelize} = require('../models');
-const {Plan} = require('../models');
 
 const Op = Sequelize.Op;
 
 module.exports = {
     async addAvio (req, res) {
         try {
-            const plan = await Plan.create({
-                totalnaCena: req.body.cena,
-                KlijentId: req.body.idPutnika
-            });
-
             const avio = await AvioKarta.create({
                 putovanjeOd: req.body.putovanjeOd,
                 putovanjeDo: req.body.putovanjeDo,
@@ -23,8 +17,7 @@ module.exports = {
                 potvrdjeno: req.body.potvrdjeno,
                 cena: req.body.cena,
                 datumRezervacije: req.body.datumRezervacije,
-                KlijentId: req.body.idPutnika,
-                PlanId: plan.id
+                KlijentId: req.body.idPutnika
             });
             res.send(avio.id.toString());
         } catch (err) {

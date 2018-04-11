@@ -1,4 +1,5 @@
 const {Transfer} = require('../models');
+
 module.exports = {
     async addTransfer (req, res) {
         try {
