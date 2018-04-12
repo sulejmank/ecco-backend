@@ -28,6 +28,9 @@ db.Sequelize = Sequelize;
 db.Klijent.hasMany(db.AvioKarta);
 db.AvioKarta.belongsTo(db.Klijent);
 
+db.Klijent.hasMany(db.Transfer);
+db.Transfer.belongsTo(db.Klijent);
+
 db.Klijent.hasOne(db.Plan);
 db.Plan.belongsTo(db.Klijent);
 
@@ -39,7 +42,7 @@ db.Angazman.belongsTo(db.Plan);
 db.Plan.hasMany(db.AvioKarta);
 db.AvioKarta.belongsTo(db.Plan);
 
-db.Plan.hasOne(db.Rata);
+db.Plan.hasMany(db.Rata);
 db.Rata.belongsTo(db.Plan);
 
 db.Plan.hasMany(db.Transfer);
