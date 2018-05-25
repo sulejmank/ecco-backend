@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 module.exports = {
-    addAvioKarta(req, res, next){
+    addFlightTicket(req, res, next){
         const schema = {
 
             putovanjeOd: Joi.string().regex(/^[a-zA-Z ]{3,30}$/),

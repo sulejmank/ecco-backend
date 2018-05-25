@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 module.exports = {
 
-    addKlijent (req, res, next) {
+    addClient (req, res, next) {
         const schema = {
             ime: Joi.string().regex(/^[a-zA-Z ]{3,30}$/),
             prezime: Joi.string().regex(/^[a-zA-Z ]{3,30}$/),

@@ -25,27 +25,30 @@ fs
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.Klijent.hasMany(db.AvioKarta);
-db.AvioKarta.belongsTo(db.Klijent);
+db.Client.hasMany(db.FlightTicket);
+db.FlightTicket.belongsTo(db.Client);
 
-db.Klijent.hasMany(db.Transfer);
-db.Transfer.belongsTo(db.Klijent);
+db.Client.hasMany(db.Transfer);
+db.Transfer.belongsTo(db.Client);
 
-db.Klijent.hasOne(db.Plan);
-db.Plan.belongsTo(db.Klijent);
+db.Client.hasOne(db.Plan);
+db.Plan.belongsTo(db.Client);
 
-db.Klijent.hasMany(db.Angazman);
-db.Angazman.belongsTo(db.Klijent);
+db.Client.hasMany(db.Arrangement);
+db.Arrangement.belongsTo(db.Client);
 
-db.Angazman.belongsTo(db.Plan);
+db.Arrangement.belongsTo(db.Plan);
 
-db.Plan.hasMany(db.AvioKarta);
-db.AvioKarta.belongsTo(db.Plan);
+db.Plan.hasMany(db.FlightTicket);
+db.FlightTicket.belongsTo(db.Plan);
 
-db.Plan.hasMany(db.Rata);
-db.Rata.belongsTo(db.Plan);
+db.Plan.hasMany(db.Installment);
+db.Installment.belongsTo(db.Plan);
 
 db.Plan.hasMany(db.Transfer);
 db.Transfer.belongsTo(db.Plan);
+
+db.ArrangementPutnici.belongsTo(db.Client);
+db.ArrangementPutnici.belongsTo(db.Arrangement);
 
 module.exports = db;

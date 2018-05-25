@@ -1,10 +1,15 @@
 const Promise = require('bluebird');
 const {sequelize} = require('./models');
 
-const {Customer} = require('./models');
-const {AvioKarta} = require('./models');
-const {Plan} = require('./models');
-const {Rata} = require('./models');
+const {
+    Client,
+    Arrangement,
+    Plan,
+    FlightTicket,
+    Installment,
+    Transfer
+} = require('./models');
+
 
 
 const CustomerData = [
@@ -73,7 +78,7 @@ const CustomerData = [
     }
 ];
 
-const AvioKartaData = [
+const FlightTicketData = [
     { 
         putovanjeOd:"Novi Pazar",
         putovanjeDo:"Amsetrdam",
@@ -188,7 +193,7 @@ const PlanData = [
     }
 ];
 
-const RataData = [
+const InstallmentData = [
     {
         datum:"2018-2-3",
         iznos:50,
@@ -248,11 +253,11 @@ sequelize.sync()
     })
 
     .then(() => {
-        return Promise.map(CustomerData, customer => Customer.create(customer));
+        return Promise.map(CustomerData, customer => Client.create(customer));
     })
 
     .then(() => {
-        return Promise.map(AvioKartaData, avio => AvioKarta.create(avio));
+        return Promise.map(FlightTicketData, avio => FlightTicket.create(avio));
     })
 
     .then(() => {
@@ -260,7 +265,7 @@ sequelize.sync()
     })
 
     .then(() => {
-        return Promise.map(RataData, rata => Rata.create(rata));
+        return Promise.map(InstallmentData, Installment => Installment.create(Installment));
     })
     
     .then(() => {

@@ -1,14 +1,14 @@
-const {Klijent} = require('../models');
+const {Client} = require('../models');
 const axios = require('axios');
 
 module.exports = {
-    async searchKlijent (req, res) {
+    async searchClient (req, res) {
         try {
-            let Klijents = null;
+            let Clients = null;
             let search = req.query.search;
 
             if (search) {
-                Klijents = await Klijent.findAll({
+                Clients = await Client.findAll({
                     where: {
                         $or: [
                             'ime', 'prezime'
@@ -20,11 +20,11 @@ module.exports = {
                     }
                 });
             } else {
-                Klijents = await Klijent.findAll({
+                Clients = await Client.findAll({
                     limit: 20
                 });
             }
-            res.send(Klijents);
+            res.send(Clients);
         } catch (err) {
             res.status(500).send({
                 error: err.toString()

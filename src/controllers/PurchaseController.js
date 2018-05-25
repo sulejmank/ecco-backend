@@ -1,7 +1,7 @@
-const {Klijent} = require('../models');
+const {Client} = require('../models');
 const {Plan} = require('../models');
-const {AvioKarta} = require('../models');
-const {Rata} = require('../models');
+const {FlightTicket} = require('../models');
+const {Installment} = require('../models');
 const {Sequelize} = require('../models');
 const Promise = require('bluebird');
 
@@ -14,10 +14,10 @@ module.exports = {
             avans: req.body.avans,
             totalnaCena: req.body.totalnaCena,
             status: false,
-            KlijentId: req.body.idMusterije
+            ClientId: req.body.idMusterije
         });
 
-        Promise.map(produkti, produkt => AvioKarta.create({
+        Promise.map(produkti, produkt => FlightTicket.create({
             putovanjeOd: produkt.putovanjeOd,
             putovanjeDo: produkt.putovanjeDo,
             potvrdjeno: produkt.potvrdjeno,
@@ -27,13 +27,13 @@ module.exports = {
             avioKompanija: produkt.avioKompanija,
             brojRezervacije: produkt.brojRezervacije,
             jedanPravac: produkt.jedanPravac,
-            KlijentId: produkt.idPutnika,
+            ClientId: produkt.idPutnika,
             PlanId: plan.id
         }))
             .then(() => {
-                Promise.map(rate, rata => Rata.create({
-                    datum: rata.rokUplate,
-                    iznos: rata.iznos,
+                Promise.map(rate, Installment => Installment.create({
+                    datum: Installment.rokUplate,
+                    iznos: Installment.iznos,
                     status: false,
                     PlanId: plan.id
                 }));
@@ -61,18 +61,18 @@ module.exports = {
 
         if (x) {
             try {
-                podaci.musterije = await Klijent.findAll({
+                podaci.musterije = await Client.findAll({
                     limit: x
                 });
 
                 for (let i = 0; i < podaci.musterije.length; i++) {
                     podaci.musterije[i].dataValues.produkti = await Plan.findAll({
                         where: {
-                            KlijentId: podaci.musterije[i].id
+                            ClientId: podaci.musterije[i].id
                         }
                     });
                     for (let j = 0; j < podaci.musterije[i].dataValues.produkti.length; j++) {
-                        podaci.musterije[i].dataValues.produkti[j].dataValues.rate = await Rata.findAll({
+                        podaci.musterije[i].dataValues.produkti[j].dataValues.rate = await Installment.findAll({
                             where: {
                                 PlanId: podaci.musterije[i].dataValues.produkti[j].id
                             }
@@ -88,7 +88,7 @@ module.exports = {
             }
         } else {
             try {
-                podaci.musterije = await Klijent.findAll({
+                podaci.musterije = await Client.findAll({
                     limit: 20,
                     order: [
                         [Sequelize.col('createdAt'), 'DESC']
@@ -98,14 +98,14 @@ module.exports = {
                 for (let i = 0; i < podaci.musterije.length; i++) {
                     podaci.musterije[i].dataValues.produkti = await Plan.findAll({
                         where: {
-                            KlijentId: podaci.musterije[i].id
+                            ClientId: podaci.musterije[i].id
                         },
                         order: [
                             [Sequelize.col('createdAt'), 'DESC']
                         ]
                     });
                     for (let j = 0; j < podaci.musterije[i].dataValues.produkti.length; j++) {
-                        podaci.musterije[i].dataValues.produkti[j].dataValues.rate = await Rata.findAll({
+                        podaci.musterije[i].dataValues.produkti[j].dataValues.rate = await Installment.findAll({
                             where: {
                                 PlanId: podaci.musterije[i].dataValues.produkti[j].id
                             },

@@ -1,4 +1,4 @@
-const {Rata} = require('../models');
+const {Installment} = require('../models');
 const {Sequelize} = require('../models');
 
 const Op = Sequelize.Op;
@@ -9,7 +9,7 @@ module.exports = {
         let mesec = new Date();
         mesec.setMonth(datum.getMonth() + 1);
 
-        const rate = await Rata.findAll({
+        const rate = await Installment.findAll({
             where: {
                 [Op.or]: [{
                     datum: {
@@ -39,14 +39,14 @@ module.exports = {
     },
 
     async platiRatu (req, res) {
-        await Rata.update(
+        await Installment.update(
             {status: true},
             {
                 where: {id: req.body.id}
             })
             .then(() => {
                 res.status(200).send({
-                    msg: 'rata placena'
+                    msg: 'Installment placena'
                 });
             })
             .catch((err) => {

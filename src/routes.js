@@ -1,13 +1,13 @@
-const KlijentController = require('./controllers/KlijentController');
-const AvioKartaController = require('./controllers/AvioKartaController');
+const ClientController = require('./controllers/ClientController');
+const FlightTicketController = require('./controllers/FlightTicketController');
 const SearchController = require('./controllers/SearchController');
 const UploadController = require('./controllers/UploadController');
 const PlanController = require('./controllers/PlanController');
 const PurchaseController = require('./controllers/PurchaseController');
-const RataController = require('./controllers/RataController');
-const AngazmanController = require('./controllers/AngazmanController');
-const addKlijentRules = require('./validation/addKlijentRules');
-const addAvioKartaRules = require('./validation/addAvioKartaRules');
+const InstallmentController = require('./controllers/InstallmentController');
+const ArrangementController = require('./controllers/ArrangementController');
+const addClientRules = require('./validation/addClientRules');
+const addFlightTicketRules = require('./validation/addFlightTicketRules');
 const TransferController = require('./controllers/TransferController');
 
 const multer = require('multer');
@@ -17,12 +17,12 @@ const upload = multer({storage: storage});
 const type = upload.single('image');
 
 module.exports = (app) => {
-    app.post('/api/addKlijent',
-        addKlijentRules.addKlijent,
-        KlijentController.addKlijent);
+    app.post('/api/addClient',
+        addClientRules.addClient,
+        ClientController.addClient);
 
     app.post('/api/addAvio',
-        AvioKartaController.addAvio);
+        FlightTicketController.addAvio);
 
     app.post('/api/addPlan',
         PlanController.addPlan);
@@ -35,43 +35,55 @@ module.exports = (app) => {
         PurchaseController.makePurchase);
 
     app.post('/api/check',
-        AvioKartaController.checkKarte);
+        FlightTicketController.checkKarte);
 
     app.post('/api/checkTicket',
-        AvioKartaController.potvrdiKartu);
+        FlightTicketController.potvrdiKartu);
 
     app.post('/api/uplata',
-        RataController.platiRatu);
+        InstallmentController.platiRatu);
 
     app.post('/api/putnik',
-        KlijentController.putnik);
+        ClientController.putnik);
 
     app.post('/api/addAng',
-        AngazmanController.addAngazman);
+        ArrangementController.addArrangement);
 
     app.post('/api/addtransfer',
         TransferController.addTransfer);
 
     app.post('/api/addtoang',
-        AngazmanController.addPassToAng);
+        ArrangementController.addPassToAng);
+
+    app.post('/api/editclient',
+        ClientController.edit);
+    
+    app.post('/api/deleteclient',
+        ClientController.delete);
+    
+    app.post('/api/editArrangement',
+        ArrangementController.edit);
+
+    app.post('/api/deleteArrangement',
+        ArrangementController.delete);
 
     app.get('/api/purchases',
         PurchaseController.purchases);
 
     app.get('/api/karte',
-        AvioKartaController.list);
+        FlightTicketController.list);
 
-    app.get('/api/relevantKlijent',
-        SearchController.searchKlijent);
+    app.get('/api/relevantClient',
+        SearchController.searchClient);
 
     app.get('/api/rate',
-        RataController.list);
+        InstallmentController.list);
     
-    app.get('/api/angazmani',
-        AngazmanController.list);
+    app.get('/api/Arrangementi',
+        ArrangementController.list);
 
     app.get('/api/list',
-        KlijentController.list);
+        ClientController.list);
 
     app.get('/api/search',
         SearchController.searchPlace);

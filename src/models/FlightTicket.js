@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) =>
-    sequelize.define('AvioKarta',
+    sequelize.define('FlightTicket',
         {
             putovanjeOd: {
                 type: DataTypes.STRING
