@@ -4,28 +4,37 @@ const {Sequelize} = require('../models');
 const Op = Sequelize.Op;
 
 module.exports = {
-    async addAvio (req, res) {
+  async addAvio (req, res) {
+      var airTickets = req.body
+      var ids = airTickets.reduce(await function (list, ticket) {
         try {
-            const avio = await FlightTicket.create({
-                putovanjeOd: req.body.putovanjeOd,
-                putovanjeDo: req.body.putovanjeDo,
-                jedanParvac: req.body.jedanParvac,
-                datumPolaska: req.body.datumPolaska,
-                datumDolaska: req.body.datumDolaska,
-                brojRezervacije: req.body.brojRezervacije,
-                avioKompanija: req.body.avioKompanija,
-                potvrdjeno: req.body.potvrdjeno,
-                cena: req.body.cena,
-                datumRezervacije: req.body.datumRezervacije,
-                KlijentId: req.body.CustomerId
-            });
-            res.send(avio.id.toString());
+          var avio = FlightTicket.create({
+            putovanjeOd: ticket.putovanjeOd,
+            putovanjeDo: ticket.putovanjeDo,
+            jedanParvac: ticket.jedanParvac,
+            datumPolaska: ticket.datumPolaska,
+            datumDolaska: ticket.datumDolaska,
+            brojRezervacije: ticket.brojRezervacije,
+            avioKompanija: ticket.avioKompanija,
+            potvrdjeno: ticket.potvrdjeno,
+            cena: ticket.cena,
+            datumRezervacije: ticket.datumRezervacije,
+            ClientId: ticket.CustomerId
+          });
         } catch (err) {
-            res.status(500).send({
-                error: err.toString()
-            });
+          res.status(500).send({
+              error: err.toString()
+          });
         }
-    },
+        return list.push(avio.id)
+      }, []);
+      
+      res.status(500).send({
+        error: ids.toString()
+      });
+
+      res.send(ids);
+  },
 
     async list (req, res) {
         let podaci = {};
