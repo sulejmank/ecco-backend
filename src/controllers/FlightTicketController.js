@@ -6,7 +6,8 @@ const Op = Sequelize.Op;
 module.exports = {
   async addAvio (req, res) {
       var airTickets = req.body
-      var ids = airTickets.reduce(await function (list, ticket) {
+      var realOGs = [];
+      var ids = airTickets.map(async ticket => {
         try {
           var avio = FlightTicket.create({
             putovanjeOd: ticket.putovanjeOd,
@@ -20,20 +21,19 @@ module.exports = {
             cena: ticket.cena,
             datumRezervacije: ticket.datumRezervacije,
             ClientId: ticket.CustomerId
-          });
+          })
+
+          return avio.id;
+
         } catch (err) {
           res.status(500).send({
-              error: err.toString()
+              error: realOGs
           });
+          return 0;
         }
-        return list.push(avio.id)
-      }, []);
+      })
       
-      res.status(500).send({
-        error: ids.toString()
-      });
-
-      res.send(ids);
+      res.send(ids.toString());
   },
 
     async list (req, res) {
