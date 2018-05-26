@@ -1,3 +1,5 @@
+const Promise = require('bluebird');
+
 const {FlightTicket} = require('../models');
 const {Sequelize} = require('../models');
 
@@ -6,10 +8,9 @@ const Op = Sequelize.Op;
 module.exports = {
   async addAvio (req, res) {
       var airTickets = req.body
-      var realOGs = [];
-      var ids = airTickets.map(async ticket => {
-        try {
-          var avio = FlightTicket.create({
+
+      try{
+          tickets = await Promise.map(airTickets, ticket => FlightTicket.create({
             putovanjeOd: ticket.putovanjeOd,
             putovanjeDo: ticket.putovanjeDo,
             jedanParvac: ticket.jedanParvac,
@@ -21,20 +22,13 @@ module.exports = {
             cena: ticket.cena,
             datumRezervacije: ticket.datumRezervacije,
             ClientId: ticket.CustomerId
-          })
-
-          return avio.id;
-
+          }))
         } catch (err) {
-          res.status(500).send({
-              error: realOGs
-          });
+
           return 0;
         }
-      })
-      
-      res.send(ids.toString());
-  },
+        res.send(tickets);
+      },
 
     async list (req, res) {
         let podaci = {};
