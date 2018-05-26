@@ -1,6 +1,6 @@
 const {Arrangement} = require('../models');
 const {Sequelize} = require('../models');
-const {ArrangementPutnici} = require('../models');
+const {ArrangementPassanger} = require('../models');
 
 module.exports = {
     async addArrangement (req, res) {
@@ -30,13 +30,13 @@ module.exports = {
 
     async addPassToAng (req, res) {
         try {
-            await ArrangementPutnici.create({
-                idArrangementa: req.body.idArrangementa,
-                idPutnika: req.body.idPutnika
+            await ArrangementPassanger.create({
+                ArrangementId: req.body.idArrangementa,
+                ClientId: req.body.idPutnika
             });
-            let brPutnika = await ArrangementPutnici.findAll({
+            let brPutnika = await ArrangementPassanger.findAll({
                 where: {
-                    idArrangementa: req.body.idArrangementa
+                    ArrangementId: req.body.idArrangement
                 }
             });
             await Arrangement.update(
@@ -44,12 +44,43 @@ module.exports = {
                     brojPutnika: brPutnika.length
                 },
                 {
-                    where: {id: req.body.idArrangementa}
+                    where: {id: req.body.idArrangement}
                 }
             );
             res.status(200).send();
         } catch (err) {
             res.status(500).send(err);
+            console.log(err);
+        }
+    },
+
+    async removePass (req, res) {
+        try {
+            await ArrangementPassanger.destroy({
+                where: {
+                    ClientId: req.body.idPutnika
+                }
+            });
+
+            let brPutnika = await ArrangementPassanger.findAll({
+                where: {
+                    ArrangementId: req.body.idArrangement
+                }
+            });
+
+            await Arrangement.update(
+                {
+                    brojPutnika: brPutnika.length
+                },
+                {
+                    where: {id: req.body.idArrangement}
+                }
+            );
+            res.status(200).send({
+                msg: 'Passanger removed from Arrangemnt'
+            });
+        } catch (err) {
+            res.status(400).send(err);
             console.log(err);
         }
     },
@@ -62,13 +93,13 @@ module.exports = {
                 }
             });
             res.status(200).send({
-                msg: "Uspesno izmenjen Arrangement"
+                msg: 'Uspesno izmenjen Arrangement'
             });
         } catch (err) {
             res.send(err);
             console.log(err);
         }
-    }, 
+    },
 
     async delete (req, res) {
         try {
@@ -78,8 +109,8 @@ module.exports = {
                 }
             });
             res.status(200).send({
-                msg:"Client izbrisan"
-            })
+                msg: 'Client izbrisan'
+            });
         } catch (err) {
             res.status(400).send(err);
             console.log(err);

@@ -3,8 +3,20 @@ const {Client} = require('../models');
 module.exports = {
     async addClient (req, res) {
         try {
-            const Client = await Client.create(req.body);
-            res.send(Client);
+            let clientExists = null;
+
+            if (req.body.id !== null) {
+                clientExists = await Client.findById(req.body.id);
+                if (clientExists !== null) {
+                    await Client.update(req.body);
+                    res.status(200).send({
+                        msg: 'client updated!'
+                    });
+                }
+            } else {
+                const client = await Client.create(req.body);
+                res.status(201).send(client);
+            }
         } catch (err) {
             res.status(400).send({
                 error: err.toString()
@@ -45,13 +57,13 @@ module.exports = {
                 }
             });
             res.status(200).send({
-                msg: "Uspesno izmenjen Client"
+                msg: 'Uspesno izmenjen Client'
             });
         } catch (err) {
             res.send(err);
             console.log(err);
         }
-    }, 
+    },
 
     async delete (req, res) {
         try {
@@ -61,8 +73,8 @@ module.exports = {
                 }
             });
             res.status(200).send({
-                msg:"Client izbrisan"
-            })
+                msg: 'Client izbrisan'
+            });
         } catch (err) {
             res.status(400).send(err);
             console.log(err);

@@ -94,13 +94,13 @@ module.exports = {
                 }
             });
             res.status(200).send({
-                msg: "Uspesno izmenjen Client"
+                msg: 'Uspesno izmenjen Client'
             });
         } catch (err) {
             res.send(err);
             console.log(err);
         }
-    }, 
+    },
 
     async delete (req, res) {
         try {
@@ -110,8 +110,8 @@ module.exports = {
                 }
             });
             res.status(200).send({
-                msg:"Client izbrisan"
-            })
+                msg: 'Client izbrisan'
+            });
         } catch (err) {
             res.status(400).send(err);
             console.log(err);

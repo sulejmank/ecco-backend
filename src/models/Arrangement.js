@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) =>
             strukturaSobe: {
                 type: DataTypes.STRING
             },
-            usluge: {
+            usluga: {
                 type: DataTypes.STRING
             },
             datumPocetka: {
@@ -29,5 +29,14 @@ module.exports = (sequelize, DataTypes) =>
             brojPutnika: {
                 type: DataTypes.INTEGER,
                 defaultValue: 0
+            },
+            brojDana: {
+                type: DataTypes.STRING
+            },
+            sadrzajSobe: {
+                type: DataTypes.STRING
+            },
+            tipAngazmana: {
+                type: DataTypes.STRING
             }
         });

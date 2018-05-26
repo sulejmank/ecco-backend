@@ -48,7 +48,7 @@ db.Installment.belongsTo(db.Plan);
 db.Plan.hasMany(db.Transfer);
 db.Transfer.belongsTo(db.Plan);
 
-db.ArrangementPutnici.belongsTo(db.Client);
-db.ArrangementPutnici.belongsTo(db.Arrangement);
+db.ArrangementPassanger.belongsTo(db.Client);
+db.ArrangementPassanger.belongsTo(db.Arrangement);
 
 module.exports = db;

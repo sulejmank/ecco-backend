@@ -9,6 +9,7 @@ const ArrangementController = require('./controllers/ArrangementController');
 const addClientRules = require('./validation/addClientRules');
 const addFlightTicketRules = require('./validation/addFlightTicketRules');
 const TransferController = require('./controllers/TransferController');
+const UserController = require('./controllers/UserController');
 
 const multer = require('multer');
 const storage = multer.memoryStorage();
@@ -37,6 +38,9 @@ module.exports = (app) => {
     app.post('/api/check',
         FlightTicketController.checkKarte);
 
+    app.post('/api/login',
+        UserController.login);
+
     app.post('/api/checkTicket',
         FlightTicketController.potvrdiKartu);
 
@@ -57,10 +61,13 @@ module.exports = (app) => {
 
     app.post('/api/editclient',
         ClientController.edit);
-    
+
+    app.post('/api/removepass',
+        ArrangementController.removePass);
+
     app.post('/api/deleteclient',
         ClientController.delete);
-    
+
     app.post('/api/editArrangement',
         ArrangementController.edit);
 
@@ -78,7 +85,7 @@ module.exports = (app) => {
 
     app.get('/api/rate',
         InstallmentController.list);
-    
+
     app.get('/api/Arrangementi',
         ArrangementController.list);
 

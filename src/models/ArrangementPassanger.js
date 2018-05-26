@@ -1,3 +1,3 @@
 module.exports = (sequelize, DataTypes) =>
-    sequelize.define('ArrangementPutnici',
+    sequelize.define('ArrangementPassanger',
         {});

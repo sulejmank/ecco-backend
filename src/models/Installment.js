@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) =>
         {
             datum: {
                 type: DataTypes.DATE,
-                defaultValue: function() {
+                defaultValue: function () {
                     let datum = Date();
                     datum.setMonths(datum.getMonths() + 6);
                     return datum;
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) =>
                 type: DataTypes.DECIMAL(10, 2)
             },
             status: {
-                type: DataTypes.BOOLEAN, 
+                type: DataTypes.BOOLEAN,
                 defaultValue: false
             }
         });
