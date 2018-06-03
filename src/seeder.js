@@ -281,4 +281,3 @@ sequelize.sync()
         console.log("db closed");
         return null;
     });
-    

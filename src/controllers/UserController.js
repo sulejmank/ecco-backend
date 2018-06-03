@@ -4,26 +4,30 @@ const Op = Sequelize.Op;
 
 module.exports = {
     async login (req, res) {
+        console.log(req.session.user);
         try {
-            const user = await User.findAll({
+            var user = await User.findOne({
                 where: {
                     [Op.and]: [{
-                        password: req.body.password
+                        password: req.query.password
                     }, {
-                        username: req.body.username
+                        username: req.query.username
                     }]
                 }
             });
-            if (user !== null) {
-                res.status(200).send(user);
+            if (user !== undefined) {
+                var userSess = { id: user.id, username: user.username };
+                req.session.user = userSess;
+                req.session.save();
+                console.log(req.session.user);
+                res.status(200).send(userSess);
             } else {
                 res.status(404).send({
                     msg: 'Invalid login'
                 });
             }
         } catch (err) {
-            res.status(500).send(err);
-            console.log(err);
+            res.status(500).send(err.toString());
         }
     }
 };

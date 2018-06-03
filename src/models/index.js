@@ -37,6 +37,7 @@ db.Plan.belongsTo(db.Client);
 db.Client.hasMany(db.Arrangement);
 db.Arrangement.belongsTo(db.Client);
 
+db.Plan.hasMany(db.Arrangement);
 db.Arrangement.belongsTo(db.Plan);
 
 db.Plan.hasMany(db.FlightTicket);
@@ -50,5 +51,7 @@ db.Transfer.belongsTo(db.Plan);
 
 db.ArrangementPassanger.belongsTo(db.Client);
 db.ArrangementPassanger.belongsTo(db.Arrangement);
+
+db.Arrangement.hasMany(db.ArrangementPassanger);
 
 module.exports = db;

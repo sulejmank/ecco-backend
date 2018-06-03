@@ -1,9 +1,24 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const {sequelize} = require('./models');
 const config = require('./config/config');
 const helmet = require('helmet');
 const app = express();
+var sessionOptions = {
+    key: 'session.sid',
+    secret: 'topsecret',
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: false,
+        maxAge: 600000
+    }
+};
+
+app.use(cookieParser());
+app.use(session(sessionOptions));
 
 app.use(helmet());
 

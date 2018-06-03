@@ -7,5 +7,8 @@ module.exports = (sequelize, DataTypes) =>
             },
             password: {
                 type: DataTypes.STRING
+            },
+            imageUrl: {
+                type: DataTypes.STRING
             }
         });
