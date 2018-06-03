@@ -28,6 +28,9 @@ module.exports = (app) => {
     app.post('/api/addPlan',
         PlanController.addPlan);
 
+    app.post('/api/updatePlan',
+        PlanController.updatePlan);
+
     app.post('/api/upload',
         type,
         UploadController.uploadImg);
@@ -53,6 +56,9 @@ module.exports = (app) => {
     app.post('/api/addAng',
         ArrangementController.addArrangement);
 
+    app.post('/api/addAngWithPass',
+        ArrangementController.createArranngementWithPassangers);
+
     app.post('/api/addtransfer',
         TransferController.addTransfer);
 
@@ -77,7 +83,7 @@ module.exports = (app) => {
     app.get('/api/purchases',
         PurchaseController.purchases);
 
-    app.get('/api/karte',
+    app.get('/api/flight-tickets',
         FlightTicketController.list);
 
     app.get('/api/relevantClient',
@@ -86,7 +92,7 @@ module.exports = (app) => {
     app.get('/api/rate',
         InstallmentController.list);
 
-    app.get('/api/Arrangementi',
+    app.get('/api/arrangements',
         ArrangementController.list);
 
     app.get('/api/list',

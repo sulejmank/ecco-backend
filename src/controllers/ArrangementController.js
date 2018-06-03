@@ -1,6 +1,8 @@
+const Promise = require('bluebird');
 const {Arrangement} = require('../models');
 const {Sequelize} = require('../models');
 const {ArrangementPassanger} = require('../models');
+const {Client} = require('../models');
 
 module.exports = {
     async addArrangement (req, res) {
@@ -113,7 +115,38 @@ module.exports = {
             });
         } catch (err) {
             res.status(400).send(err);
-            console.log(err);
+            consolelog(err);
         }
-    }
+    },
+
+    async createArranngementWithPassangers (req, res) {
+      try {
+        var arrangement = req.body.arrangement;
+        var passangers = req.body.passangers;
+
+        arrangement = await Arrangement.create(arrangement);
+
+        var notRegistredPassangers = passangers.filter(pass => {
+          return pass.id == undefined || pass.id == 0
+        })
+
+        registredPassangers = await Promise.map(notRegistredPassangers, passanger => Client.create(passanger))
+
+        passangers = passangers.concat(registredPassangers)
+
+        await Promise.map(passangers, passanger => ArrangementPassanger.create({
+          ClientId: passanger.id,
+          ArrangementId: arrangement.id
+        }))
+
+          res.status(200).send({
+              msg: "Succesfully Created Arrangement",
+              arrangement: arrangement,
+              passangers: passangers
+          });
+      } catch (err) {
+          res.status(400).send(err);
+          console.log(err);
+      }
+  }
 };
