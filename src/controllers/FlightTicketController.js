@@ -7,38 +7,37 @@ const Op = Sequelize.Op;
 
 module.exports = {
   async addAvio (req, res) {
-      var airTickets = req.body
+    var airTickets = req.body
+    try{
+        tickets = await Promise.map(airTickets, ticket => FlightTicket.create({
+          putovanjeOd: ticket.putovanjeOd,
+          putovanjeDo: ticket.putovanjeDo,
+          jedanParvac: ticket.jedanParvac,
+          datumPolaska: ticket.datumPolaska,
+          datumDolaska: ticket.datumDolaska,
+          brojRezervacije: ticket.brojRezervacije,
+          avioKompanija: ticket.avioKompanija,
+          potvrdjeno: ticket.potvrdjeno,
+          cena: ticket.cena,
+          datumRezervacije: ticket.datumRezervacije,
+          ClientId: ticket.CustomerId,
+          PlanId: ticket.PlanId
+        }))
+      } catch (err) {
 
-      try{
-          tickets = await Promise.map(airTickets, ticket => FlightTicket.create({
-            putovanjeOd: ticket.putovanjeOd,
-            putovanjeDo: ticket.putovanjeDo,
-            jedanParvac: ticket.jedanParvac,
-            datumPolaska: ticket.datumPolaska,
-            datumDolaska: ticket.datumDolaska,
-            brojRezervacije: ticket.brojRezervacije,
-            avioKompanija: ticket.avioKompanija,
-            potvrdjeno: ticket.potvrdjeno,
-            cena: ticket.cena,
-            datumRezervacije: ticket.datumRezervacije,
-            ClientId: ticket.CustomerId
-          }))
-        } catch (err) {
-
-          return 0;
-        }
-        res.send(tickets);
-      },
+        return 0;
+      }
+      res.send(tickets);
+    },
 
     async list (req, res) {
-        let podaci = {};
         try {
-            podaci.karte = await FlightTicket.findAll({
+            const tickets = await FlightTicket.findAll({
                 order: [
                     [Sequelize.col('createdAt'), 'DESC']
                 ]
             });
-            res.status(200).send(podaci);
+            res.status(200).send(tickets);
         } catch (err) {
             res.send(err);
         }
