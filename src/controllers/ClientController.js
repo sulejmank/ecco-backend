@@ -2,26 +2,33 @@ const {Client} = require('../models');
 
 module.exports = {
     async addClient (req, res) {
+      let clientExists = null;
+      if (req.body.id !== undefined) {
         try {
-            let clientExists = null;
+          var id = req.body.id
+          delete req.body.id
+          clientExists = await Client.findById(id);
 
-            if (req.body.id !== null) {
-                clientExists = await Client.findById(req.body.id);
-                if (clientExists !== null) {
-                    await Client.update(req.body);
-                    res.status(200).send({
-                        msg: 'client updated!'
-                    });
-                }
-            } else {
-                const client = await Client.create(req.body);
-                res.status(201).send(client);
-            }
+          if (clientExists !== null) {
+              await Client.update(req.body, {where: { id: id }});
+              req.body.id = id
+              res.status(200).send(req.body);
+          }
         } catch (err) {
-            res.status(400).send({
-                error: err.toString()
-            });
+          res.status(400).send({
+              error: err.toString()
+          });
         }
+      } else {
+        try {
+          let client = await Client.create(req.body);
+          res.status(201).send(client);
+        } catch (err) {
+          res.status(400).send({
+              error: err.toString()
+          });
+        }
+      }
     },
 
     async putnik (req, res) {
@@ -79,5 +86,15 @@ module.exports = {
             res.status(400).send(err);
             console.log(err);
         }
+    },
+
+    async getClientById (req, res) {
+      try {
+          var client = await Client.findOne({ where: {id: req.params.id}});
+          res.status(200).send(client);
+      } catch (err) {
+          res.status(400).send(err);
+          console.log(err);
+      }
     }
 };
