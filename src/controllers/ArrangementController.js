@@ -1,104 +1,99 @@
-const Promise = require('bluebird');
-const {Arrangement} = require('../models');
-const {Sequelize} = require('../models');
-const {ArrangementPassanger} = require('../models');
-const {Client} = require('../models');
+const {
+    Arrangement,
+    PassangersArrangement,
+    Client,
+    Picklist,
+    Plan,
+    Passanger,
+    Destination,
+    Sequelize,
+    Hotel,
+    Agent,
+    Payment
+} = require('../models');
 
 module.exports = {
     async addArrangement (req, res) {
+        var objArrangement = Object.keys(req.body).reduce((accu, e) => {
+            accu[e] = req.body[e] !== '' ? req.body[e] : null;
+            return accu;
+        }, {});
         try {
-            const ang = await Arrangement.create(req.body);
+            var ang = await Arrangement.create(objArrangement);
             res.status(200).send(ang);
-        } catch (err) {
-            console.log(err);
-            res.send({
-                err: err
-            });
+        } catch (e) {
+            res.status(400).send({message: 'Neuspesno kreiranje angazmana ' + e.toString()});
         }
     },
 
     async list (req, res) {
         try {
-            const Arrangementi = await Arrangement.findAll({
+            const arrangements = await Arrangement.findAll({
                 order: [
                     [Sequelize.col('createdAt'), 'DESC']
+                ],
+                include: [
+                    {
+                        model: Picklist,
+                        as: 'Type'
+                    },
+                    {
+                        model: Picklist,
+                        as: 'Service'
+                    },
+                    {
+                        model: Destination,
+                        as: 'Destination'
+                    },
+                    {
+                        model: Destination,
+                        as: 'Depart'
+                    },
+                    {
+                        model: Client
+                    },
+                    {
+                        model: Plan,
+                        include: [
+                            Payment
+                        ]
+                    },
+                    Hotel,
+                    Agent,
+                    {
+                        model: PassangersArrangement,
+                        include: [
+                            Passanger,
+                            {
+                                model: Client,
+                                as: 'ClientPassanger'
+                            }
+                        ]
+                    }
                 ]
             });
-            res.send(Arrangementi);
+            res.send(arrangements);
         } catch (err) {
-            console.log(err);
-        }
-    },
-
-    async addPassToAng (req, res) {
-        try {
-            await ArrangementPassanger.create({
-                ArrangementId: req.body.idArrangementa,
-                ClientId: req.body.idPutnika
-            });
-            let brPutnika = await ArrangementPassanger.findAll({
-                where: {
-                    ArrangementId: req.body.idArrangement
-                }
-            });
-            await Arrangement.update(
-                {
-                    brojPutnika: brPutnika.length
-                },
-                {
-                    where: {id: req.body.idArrangement}
-                }
-            );
-            res.status(200).send();
-        } catch (err) {
-            res.status(500).send(err);
-            console.log(err);
-        }
-    },
-
-    async removePass (req, res) {
-        try {
-            await ArrangementPassanger.destroy({
-                where: {
-                    ClientId: req.body.idPutnika
-                }
-            });
-
-            let brPutnika = await ArrangementPassanger.findAll({
-                where: {
-                    ArrangementId: req.body.idArrangement
-                }
-            });
-
-            await Arrangement.update(
-                {
-                    brojPutnika: brPutnika.length
-                },
-                {
-                    where: {id: req.body.idArrangement}
-                }
-            );
-            res.status(200).send({
-                msg: 'Passanger removed from Arrangemnt'
-            });
-        } catch (err) {
-            res.status(400).send(err);
-            console.log(err);
+            console.log({message: err.toString()});
+            res.status(500).send(err.toString());
         }
     },
 
     async edit (req, res) {
+        var objArrangement = Object.keys(req.body).reduce((accu, e) => {
+            accu[e] = req.body[e] !== '' ? req.body[e] : null;
+            return accu;
+        }, {});
         try {
-            await Arrangement.update(req.body, {
+            delete objArrangement.id;
+            await Arrangement.update(objArrangement, {
                 where: {
-                    id: req.body.id
+                    id: req.params.id
                 }
             });
-            res.status(200).send({
-                msg: 'Uspesno izmenjen Arrangement'
-            });
+            res.status(202).send({id: req.params.id});
         } catch (err) {
-            res.send(err);
+            res.send({message: err.toString()});
             console.log(err);
         }
     },
@@ -111,42 +106,11 @@ module.exports = {
                 }
             });
             res.status(200).send({
-                msg: 'Client izbrisan'
+                msg: 'Arrangement izbrisan'
             });
         } catch (err) {
             res.status(400).send(err);
-            consolelog(err);
+            console.log(err);
         }
-    },
-
-    async createArranngementWithPassangers (req, res) {
-      try {
-        var arrangement = req.body.arrangement;
-        var passangers = req.body.passangers;
-
-        arrangement = await Arrangement.create(arrangement);
-
-        var notRegistredPassangers = passangers.filter(pass => {
-          return pass.id == undefined || pass.id == 0
-        })
-
-        registredPassangers = await Promise.map(notRegistredPassangers, passanger => Client.create(passanger))
-
-        passangers = passangers.concat(registredPassangers)
-
-        await Promise.map(passangers, passanger => ArrangementPassanger.create({
-          ClientId: passanger.id,
-          ArrangementId: arrangement.id
-        }))
-
-          res.status(200).send({
-              msg: "Succesfully Created Arrangement",
-              arrangement: arrangement,
-              passangers: passangers
-          });
-      } catch (err) {
-          res.status(400).send(err);
-          console.log(err);
-      }
-  }
+    }
 };

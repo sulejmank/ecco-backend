@@ -5,7 +5,11 @@ module.exports = (sequelize, DataTypes) =>
                 type: DataTypes.DECIMAL(10, 2),
                 allowNull: true
             },
-            totalnaCena: {
+            neto: {
+                type: DataTypes.DECIMAL(10, 2),
+                allowNull: true
+            },
+            bruto: {
                 type: DataTypes.DECIMAL(10, 2),
                 allowNull: true
             },
@@ -16,6 +20,10 @@ module.exports = (sequelize, DataTypes) =>
             },
             rokUplate: {
                 type: DataTypes.DATE,
+                allowNull: true
+            },
+            notes: {
+                type: DataTypes.STRING,
                 allowNull: true
             }
         });

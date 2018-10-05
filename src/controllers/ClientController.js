@@ -2,33 +2,37 @@ const {Client} = require('../models');
 
 module.exports = {
     async addClient (req, res) {
-      let clientExists = null;
-      if (req.body.id !== undefined) {
-        try {
-          var id = req.body.id
-          delete req.body.id
-          clientExists = await Client.findById(id);
+        let clientExists = null;
+        var objClient = Object.keys(req.body).reduce((accu, e) => {
+            accu[e] = req.body[e] !== '' ? req.body[e] : null;
+            return accu;
+        }, {});
+        if (objClient.id !== null) {
+            try {
+                var id = req.body.id;
+                delete objClient.id;
+                clientExists = await Client.findById(id);
 
-          if (clientExists !== null) {
-              await Client.update(req.body, {where: { id: id }});
-              req.body.id = id
-              res.status(200).send(req.body);
-          }
-        } catch (err) {
-          res.status(400).send({
-              error: err.toString()
-          });
+                if (clientExists !== null) {
+                    await Client.update(objClient, {where: { id: id }});
+                    objClient.id = id;
+                    res.status(200).send(objClient);
+                }
+            } catch (err) {
+                res.status(400).send({
+                    message: err.toString()
+                });
+            }
+        } else {
+            try {
+                let client = await Client.create(objClient);
+                res.status(201).send(client);
+            } catch (err) {
+                res.status(400).send({
+                    message: err.toString()
+                });
+            }
         }
-      } else {
-        try {
-          let client = await Client.create(req.body);
-          res.status(201).send(client);
-        } catch (err) {
-          res.status(400).send({
-              error: err.toString()
-          });
-        }
-      }
     },
 
     async putnik (req, res) {
@@ -41,7 +45,9 @@ module.exports = {
             res.status(200).send(putnik);
         } catch (err) {
             console.log(err);
-            res.status(500).send(err);
+            res.status(500).send({
+                message: err.toString()
+            });
         }
     },
 
@@ -51,7 +57,7 @@ module.exports = {
             res.send(Clients);
         } catch (err) {
             res.status(500).send({
-                error: err.toString()
+                message: err.toString()
             });
         }
     },
@@ -64,7 +70,7 @@ module.exports = {
                 }
             });
             res.status(200).send({
-                msg: 'Uspesno izmenjen Client'
+                message: 'Uspesno izmenjen Client'
             });
         } catch (err) {
             res.send(err);
@@ -73,28 +79,33 @@ module.exports = {
     },
 
     async delete (req, res) {
+        var id = parseInt(req.params.id);
         try {
             await Client.destroy({
                 where: {
-                    id: req.body.id
+                    id: id
                 }
             });
             res.status(200).send({
-                msg: 'Client izbrisan'
+                message: 'Client izbrisan'
             });
         } catch (err) {
-            res.status(400).send(err);
             console.log(err);
+            res.status(400).send({message: err});
         }
     },
 
     async getClientById (req, res) {
-      try {
-          var client = await Client.findOne({ where: {id: req.params.id}});
-          res.status(200).send(client);
-      } catch (err) {
-          res.status(400).send(err);
-          console.log(err);
-      }
+        try {
+            var client = await Client.findOne({
+                where: {id: req.params.id}
+            });
+            res.status(200).send(client);
+        } catch (err) {
+            console.log(err);
+            res.status(400).send({
+                message: err.toString()
+            });
+        }
     }
 };
