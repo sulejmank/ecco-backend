@@ -1,6 +1,6 @@
 const {Client} = require('../models');
 const {Plan} = require('../models');
-const {FlightTicket} = require('../models');
+const {Ticket} = require('../models');
 const {Installment} = require('../models');
 const {Sequelize} = require('../models');
 const Promise = require('bluebird');
@@ -17,7 +17,7 @@ module.exports = {
             ClientId: req.body.idMusterije
         });
 
-        Promise.map(produkti, produkt => FlightTicket.create({
+        Promise.map(produkti, produkt => Ticket.create({
             putovanjeOd: produkt.putovanjeOd,
             putovanjeDo: produkt.putovanjeDo,
             potvrdjeno: produkt.potvrdjeno,

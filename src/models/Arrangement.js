@@ -1,6 +1,11 @@
 module.exports = (sequelize, DataTypes) =>
     sequelize.define('Arrangement',
         {
+            id: {
+                type: DataTypes.INTEGER,
+                primaryKey: true,
+                autoIncrement: true
+            },
             destinacija: {
                 type: DataTypes.STRING,
                 allowNull: false
@@ -8,10 +13,10 @@ module.exports = (sequelize, DataTypes) =>
             hotel: {
                 type: DataTypes.STRING
             },
-            strukturaSobe: {
+            usluga: {
                 type: DataTypes.STRING
             },
-            usluga: {
+            tipAngazmana: {
                 type: DataTypes.STRING
             },
             datumPocetka: {
@@ -23,9 +28,6 @@ module.exports = (sequelize, DataTypes) =>
             usluznaKompanija: {
                 type: DataTypes.STRING
             },
-            cena: {
-                type: DataTypes.DECIMAL(10, 2)
-            },
             brojPutnika: {
                 type: DataTypes.INTEGER,
                 defaultValue: 0
@@ -33,10 +35,16 @@ module.exports = (sequelize, DataTypes) =>
             brojDana: {
                 type: DataTypes.STRING
             },
-            sadrzajSobe: {
-                type: DataTypes.STRING
+            mestoPolaska: {
+                type: DataTypes.STRING,
+                allowNull: true
             },
-            tipAngazmana: {
-                type: DataTypes.STRING
+            mestoPristanista: {
+                type: DataTypes.STRING,
+                allowNull: true
+            },
+            agent: {
+                type: DataTypes.STRING,
+                allowNull: true
             }
         });

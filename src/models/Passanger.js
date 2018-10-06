@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) =>
-    sequelize.define('Client',
+    sequelize.define('Passanger',
         {
             ime: {
                 type: DataTypes.STRING
